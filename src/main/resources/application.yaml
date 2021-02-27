@@ -1,0 +1,6 @@
+greetings:
+  message: Local
+
+info:
+  app:
+    name: Java on Kubernetes. Zero to Hero

@@ -1,0 +1,53 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+}
+
+group = 'com.grenader.java-to-k8s'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'javax.inject:javax.inject:1'
+	compileOnly group: 'javax.enterprise', name: 'cdi-api', version: '2.0'
+
+	testCompile 'org.jboss.weld.se:weld-se-core:3.0.2.Final'
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
+/*
+
+sourceSets.main.resources {
+	exclude 'META-INF/beans.xml'
+}
+*/
+/*
+classes {
+	doLast{
+		copy {
+			from('src/main/resources') { include 'META-INF/beans.xml' }
+			into "$buildDir/classes/java/main/"
+		}
+	}
+}
+*/
+
+task copyResources(type: Copy) {
+	from "${projectDir}/src/main/resources"
+	into "${buildDir}/classes/java/main"
+}
+processResources.dependsOn copyResources
